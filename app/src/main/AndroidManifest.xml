@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="kim.hsl.keep_progress_alive">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.Keep_Progress_Alive">
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!--
+            设置最近任务列表中不显示该 Activity 组件 ( 不要被用户察觉 )
+            android:excludeFromRecents="true"
+
+            设置 Activity 亲和性
+            让该界面在一个独立的任务栈中 , 不要与本应用的其它任务栈放在一起
+            避免解除锁屏后 , 关闭 1 像素界面 , 将整个任务栈都唤醒
+            android:taskAffinity="kim.hsl.keep_progress_alive.alive"
+        -->
+        <activity
+            android:name=".OnePixelActivity"
+            android:theme="@style/OnePixelActivityTheme"
+            android:excludeFromRecents="true"
+            android:taskAffinity="kim.hsl.keep_progress_alive.onepixel" />
+
+    </application>
+
+</manifest>
