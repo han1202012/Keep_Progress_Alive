@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="kim.hsl.keep_progress_alive">
 
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,6 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Keep_Progress_Alive">
+
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,10 +30,16 @@
             android:taskAffinity="kim.hsl.keep_progress_alive.alive"
         -->
         <activity
-            android:name=".OnePixelActivity"
-            android:theme="@style/OnePixelActivityTheme"
+            android:name=".one_pixel_activity.OnePixelActivity"
             android:excludeFromRecents="true"
-            android:taskAffinity="kim.hsl.keep_progress_alive.onepixel" />
+            android:taskAffinity="kim.hsl.keep_progress_alive.onepixel"
+            android:theme="@style/OnePixelActivityTheme" />
+
+        <!-- 用于提权的前台进程 -->
+        <service
+            android:name=".foreground_service.ForegroundService"
+            android:enabled="true"
+            android:exported="true"/>
 
     </application>
 

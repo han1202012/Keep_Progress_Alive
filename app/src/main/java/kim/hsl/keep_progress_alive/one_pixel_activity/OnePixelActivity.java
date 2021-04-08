@@ -1,4 +1,4 @@
-package kim.hsl.keep_progress_alive;
+package kim.hsl.keep_progress_alive.one_pixel_activity;
 
 import android.app.Activity;
 import android.os.Bundle;
