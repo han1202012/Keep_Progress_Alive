@@ -41,6 +41,12 @@
             android:enabled="true"
             android:exported="true"/>
 
+        <!-- 用于提权的前台进程, 关闭通知操作 -->
+        <service
+            android:name=".foreground_service.CancelNotificationService"
+            android:enabled="true"
+            android:exported="true"/>
+
     </application>
 
 </manifest>

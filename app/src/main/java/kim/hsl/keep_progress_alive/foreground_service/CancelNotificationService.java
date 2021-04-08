@@ -17,28 +17,42 @@ import kim.hsl.keep_progress_alive.R;
 
 import static androidx.core.app.NotificationCompat.PRIORITY_MIN;
 
-public class ForegroundService extends Service {
-    public ForegroundService() {
+public class CancelNotificationService extends Service {
+    public CancelNotificationService() {
     }
 
     @Override
     public void onCreate() {
         super.onCreate();
 
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR2){
-            // 将该服务转为前台服务
-            // 需要设置 ID 和 通知
-            // 设置 ID 为 0 , 就不显示已通知了 , 但是 oom_adj 值会变成后台进程 11
-            // 设置 ID 为 1 , 会在通知栏显示该前台服务
-            // 8.0 以上报错
-            startForeground(10, new Notification());
+        // 将该服务转为前台服务
+        // 需要设置 ID 和 通知
+        // 设置 ID 为 0 , 就不显示已通知了 , 但是 oom_adj 值会变成后台进程 11
+        // 设置 ID 为 1 , 会在通知栏显示该前台服务
+        // 8.0 以上报错
+        //startForeground(1, new Notification());
 
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2){
-            startForeground();
+        startForeground();
 
-            // API 18 以上的设备 , 启动相同 id 的前台服务 , 并关闭 , 可以关闭通知
-            startService(new Intent(this, CancelNotificationService.class));
-        }
+        new Thread(){
+            @Override
+            public void run() {
+                super.run();
+                try {
+                    sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                stopForeground(true);
+                NotificationManager manager = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
+                manager.cancel(10);
+                // 启动后马上关闭 , 此时就将通知栏关闭了
+                stopSelf();
+
+            }
+        }.start();
+
     }
 
     @Override
