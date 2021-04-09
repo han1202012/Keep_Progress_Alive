@@ -19,7 +19,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <!--
             设置最近任务列表中不显示该 Activity 组件 ( 不要被用户察觉 )
             android:excludeFromRecents="true"
@@ -39,13 +38,19 @@
         <service
             android:name=".foreground_service.ForegroundService"
             android:enabled="true"
-            android:exported="true"/>
+            android:exported="true" />
 
         <!-- 用于提权的前台进程, 关闭通知操作 -->
         <service
             android:name=".foreground_service.CancelNotificationService"
             android:enabled="true"
-            android:exported="true"/>
+            android:exported="true" />
+
+        <!-- 系统 Service 机制拉活 -->
+        <service
+            android:name=".stick_service.StickService"
+            android:enabled="true"
+            android:exported="true" />
 
     </application>
 
