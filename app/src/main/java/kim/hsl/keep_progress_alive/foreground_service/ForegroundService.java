@@ -25,19 +25,41 @@ public class ForegroundService extends Service {
     public void onCreate() {
         super.onCreate();
 
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR2){
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            // startForeground();
+
+            // 创建通知通道
+            NotificationChannel channel = new NotificationChannel("service",
+                    "service", NotificationManager.IMPORTANCE_NONE);
+            channel.setLightColor(Color.BLUE);
+            channel.setLockscreenVisibility(Notification.VISIBILITY_PRIVATE);
+            NotificationManager service = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            // 正式创建
+            service.createNotificationChannel(channel);
+
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "service");
+            Notification notification = builder.setOngoing(true)
+                    .setSmallIcon(R.mipmap.ic_launcher)
+                    .setPriority(PRIORITY_MIN)
+                    .setCategory(Notification.CATEGORY_SERVICE)
+                    .build();
+
+            // 开启前台进程 , API 26 以上无法关闭通知栏
+            startForeground(10, notification);
+
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2){
+            startForeground(10, new Notification());
+            // API 18 ~ 25 以上的设备 , 启动相同 id 的前台服务 , 并关闭 , 可以关闭通知
+            startService(new Intent(this, CancelNotificationService.class));
+
+        } else if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR2){
             // 将该服务转为前台服务
             // 需要设置 ID 和 通知
             // 设置 ID 为 0 , 就不显示已通知了 , 但是 oom_adj 值会变成后台进程 11
             // 设置 ID 为 1 , 会在通知栏显示该前台服务
-            // 8.0 以上报错
+            // 8.0 以上该用法报错
             startForeground(10, new Notification());
-
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2){
-            startForeground();
-
-            // API 18 以上的设备 , 启动相同 id 的前台服务 , 并关闭 , 可以关闭通知
-            startService(new Intent(this, CancelNotificationService.class));
         }
     }
 
@@ -75,12 +97,14 @@ public class ForegroundService extends Service {
      */
     @RequiresApi(Build.VERSION_CODES.O)
     private String createNotificationChannel(String channelId, String channelName){
-        NotificationChannel chan = new NotificationChannel(channelId,
+        // 创建通知通道
+        NotificationChannel channel = new NotificationChannel(channelId,
                 channelName, NotificationManager.IMPORTANCE_NONE);
-        chan.setLightColor(Color.BLUE);
-        chan.setLockscreenVisibility(Notification.VISIBILITY_PRIVATE);
+        channel.setLightColor(Color.BLUE);
+        channel.setLockscreenVisibility(Notification.VISIBILITY_PRIVATE);
         NotificationManager service = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        service.createNotificationChannel(chan);
+        // 正式创建
+        service.createNotificationChannel(channel);
         return channelId;
     }
 }
