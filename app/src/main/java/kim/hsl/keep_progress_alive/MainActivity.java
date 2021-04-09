@@ -26,7 +26,9 @@ public class MainActivity extends AppCompatActivity {
         //startService(new Intent(this, ForegroundService.class));
 
         // 3. 使用 Service 机制拉活
-        startService(new Intent(this, StickService.class));
+        //startService(new Intent(this, StickService.class));
+
+        // 4. 账户同步拉活
 
 
     }
