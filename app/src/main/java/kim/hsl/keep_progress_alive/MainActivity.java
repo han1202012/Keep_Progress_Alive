@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import kim.hsl.keep_progress_alive.account_service.AccountUtils;
 import kim.hsl.keep_progress_alive.foreground_service.ForegroundService;
 import kim.hsl.keep_progress_alive.one_pixel_activity.KeepProgressAliveManager;
 import kim.hsl.keep_progress_alive.stick_service.StickService;
@@ -29,7 +30,9 @@ public class MainActivity extends AppCompatActivity {
         //startService(new Intent(this, StickService.class));
 
         // 4. 账户同步拉活
-
+        AccountUtils.addAccount(this);
+        // 开始同步
+        AccountUtils.autoSyncStart();
 
     }
 

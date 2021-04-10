@@ -3,6 +3,14 @@
     package="kim.hsl.keep_progress_alive">
 
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission
+        android:name="android.permission.GET_ACCOUNTS"
+        android:maxSdkVersion="22" />
+    <uses-permission
+        android:name="android.permission.AUTHENTICATE_ACCOUNTS"
+        android:maxSdkVersion="22" />
+    <uses-permission
+        android:name="android.permission.WRITE_SYNC_SETTINGS"/>
 
     <application
         android:allowBackup="true"
@@ -51,6 +59,40 @@
             android:name=".stick_service.StickService"
             android:enabled="true"
             android:exported="true" />
+
+        <!-- 用于账户同步拉活 -->
+        <service
+            android:name=".account_service.AuthenticationService"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.accounts.AccountAuthenticator" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.accounts.AccountAuthenticator"
+                android:resource="@xml/account_authenticator" />
+        </service>
+
+        <!-- 账户同步服务 -->
+        <service
+            android:name=".account_service.AccountSyncService"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.content.SyncAdapter" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.content.SyncAdapter"
+                android:resource="@xml/sync_adapter" />
+        </service>
+
+        <!-- 账户同步 ContentProvider -->
+        <provider
+            android:authorities="kim.hsl.keep_progress_alive.provider"
+            android:name=".account_service.AccountSyncContentProvider" />
+
 
     </application>
 
