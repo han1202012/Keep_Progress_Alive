@@ -3,10 +3,12 @@ package kim.hsl.keep_progress_alive;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 
 import kim.hsl.keep_progress_alive.account_service.AccountUtils;
 import kim.hsl.keep_progress_alive.foreground_service.ForegroundService;
+import kim.hsl.keep_progress_alive.jobscheduler.KeepAliveJobService;
 import kim.hsl.keep_progress_alive.one_pixel_activity.KeepProgressAliveManager;
 import kim.hsl.keep_progress_alive.stick_service.StickService;
 
@@ -30,9 +32,14 @@ public class MainActivity extends AppCompatActivity {
         //startService(new Intent(this, StickService.class));
 
         // 4. 账户同步拉活
-        AccountUtils.addAccount(this);
+        //AccountUtils.addAccount(this);
         // 开始同步
-        AccountUtils.autoSyncStart();
+        //AccountUtils.autoSyncStart();
+
+        // 5. JobScheduler 拉活
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            KeepAliveJobService.startJob(this);
+        }
 
     }
 

@@ -9,6 +9,7 @@
     <uses-permission
         android:name="android.permission.AUTHENTICATE_ACCOUNTS"
         android:maxSdkVersion="22" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission
         android:name="android.permission.WRITE_SYNC_SETTINGS"/>
 
@@ -93,6 +94,12 @@
             android:authorities="kim.hsl.keep_progress_alive.provider"
             android:name=".account_service.AccountSyncContentProvider" />
 
+        <!-- JobScheduler 拉活 -->
+        <service
+            android:name=".jobscheduler.KeepAliveJobService"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"></service>
 
     </application>
 
